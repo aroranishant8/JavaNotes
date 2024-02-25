@@ -13,8 +13,28 @@ public class BehaviorPattern {
         appleList.add(new Apple("Red", 151));
         appleList.add(new Apple("Green", 150));
 
-        System.out.println(filterAppleListByRedColorPredicate(appleList, new RedColorPredicate()));
+      //  System.out.println(filterAppleListByRedColorPredicate(appleList, new RedColorPredicate()));
+        System.out.println(filterAppleListByAbstractPredicate(appleList, new Predicate() {
+            @Override
+            public boolean test(Apple apple) {
+                return apple.color.equals("Green");
+            }
+        }));
     }
+
+    private static List filterAppleListByAbstractPredicate(List<Apple> appleList, Predicate predicate) {
+        List temp=new ArrayList();
+        for(int i=0;i<appleList.size();i++)
+        {
+            Apple apple=appleList.get(i);
+            if(predicate.test(apple))
+            {
+                temp.add(apple);
+            }
+        }
+        return temp;
+    }
+
     private static List<Apple> filterAppleListByRedColorPredicate(List<Apple> appleList,
                                                                   Predicate redColorPredicate) {
         List<Apple> temp=new ArrayList<>();
@@ -35,7 +55,7 @@ public class BehaviorPattern {
         Therefore going one step back, lets define a predicate that returns a boolean value*/
 
 interface Predicate {
-    boolean test(Apple appleList);
+    boolean test(Apple apple);
 }
 
 class RedColorPredicate implements Predicate {
